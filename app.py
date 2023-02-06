@@ -14,7 +14,9 @@ def init():
 
     # Flan-T5 version, if changed be sure to update in download.py too
     # model_name = "knkarthick/MEETING_SUMMARY"
-    classifier = pipeline("sentiment-analysis", model="sbcBI/sentiment_analysis")
+    MODEL = f"sbcBI/sentiment_analysis"
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
     # tokenizer = T5Tokenizer.from_pretrained(model_name)
     # model = T5ForConditionalGeneration.from_pretrained(model_name).to("cuda")
 
@@ -22,9 +24,8 @@ def init():
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
 def inference(model_inputs: dict) -> dict:
-    # global model
-    global classifier
-
+    global model
+    global tokenizer
     # Parse out your arguments
     prompt = model_inputs.get('prompt', None)
     if prompt == None:
@@ -34,7 +35,8 @@ def inference(model_inputs: dict) -> dict:
     # input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
     # output = model.generate(input_ids, max_length=100)
     # result = tokenizer.decode(output[0], skip_special_tokens=True)
-    result = classifier(prompt)[0]["label"]
-
+#     result = classifier(prompt)[0]["label"]
+    sentiment_task = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+    result = sentiment_task(prompt)[0]["label"]
     # Return the results as a dictionary
     return result
