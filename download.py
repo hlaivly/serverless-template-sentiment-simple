@@ -3,12 +3,14 @@
 
 # In this example: A Huggingface BERT model
 from transformers import pipeline
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, AutoConfig
 
 
 def download_model():
     # do a dry run of loading the huggingface model, which will download weights
-
-    classifier = pipeline("sentiment-analysis", model="sbcBI/sentiment_analysis")
+    MODEL = f"sbcBI/sentiment_analysis"
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 
 if __name__ == "__main__":
