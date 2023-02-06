@@ -1,0 +1,7 @@
+{
+    "name": "simple sentiment",
+    "category": "Natural Language",
+    "example_input": {"prompt": "Sentiment Analysis of the text, I like you. I love you"},
+    "example_output": {"output": "LABEL_2"},
+    "version": "1"
+  }
